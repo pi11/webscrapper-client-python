@@ -8,15 +8,15 @@ get_page and get_page_async for async python.
 
 ## Installation
 
-'''
+```
 pip install webscrapper-client-python
-'''
+```
 
-## Example
+## Example usage:
 
-'''python
+```python
 from webscrapper.client import get_page
 
 result = get_page(url, api_key="__YOUR_API_KEY__", use_selenium=True)
 print(result.html)
-'''
+```
