@@ -1,0 +1,14 @@
+*~
+\#*\#
+.\#*
+*~
+.#*.*
+*.pyc
+*.pyo
+*.swp
+*.swo
+*.rar
+*.bak
+build/
+dist/
+*.egg-info
