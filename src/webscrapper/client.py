@@ -16,9 +16,11 @@ def get_page(
     user_agent: str = "",
     use_selenium: bool = False,
     referer: str = "",
+    method: str = "get",
     base_api_url: str = "https://scrapper.scurra.space/api/get?url=",
 ) -> dict:
     """Simple sync wrapper function for scrapper API"""
+    print("METHOD:", method)
     api_url = "{}{}".format(base_api_url, quote(url))
     if user_agent and user_agent != "":
         api_url += "&ua={}".format(quote(user_agent))
@@ -29,6 +31,7 @@ def get_page(
     if referer:
         api_url += "&referer={}".format(referer)
     api_url += "&attempts={}".format(attempts)
+    api_url += "&method={}".format(method)
     retries = 0
     good = False
 
@@ -61,6 +64,7 @@ async def get_page_async(
     user_agent: str = "",
     referer: str = "",
     use_selenium: bool = False,
+    method: str = "get",
     base_api_url: str = "https://scrapper.scurra.space/api/get?url=",
 ) -> dict:
     """Simple async wrapper function for scrapper API"""
@@ -74,7 +78,7 @@ async def get_page_async(
     if referer:
         api_url += "&referer={}".format(referer)
     api_url += "&attempts={}".format(attempts)
-
+    api_url += "&method={}".format(method)
     retries = 0
     good = False
     result = {"html": "", "error": True}
