@@ -20,28 +20,22 @@ def get_page(
     base_api_url: str = "https://scrapper.scurra.space/api/get?url=",
 ) -> dict:
     """Simple sync wrapper function for scrapper API"""
-    print("METHOD:", method)
-    api_url = "{}{}".format(base_api_url, quote(url))
+
+    api_url = f"{base_api_url}{url}"
     if user_agent and user_agent != "":
         api_url += "&ua={}".format(quote(user_agent))
     if proxy_country > 0:
-        api_url += "&country={}".format(proxy_country)
+        api_url += f"&country={proxy_country}"
     if use_selenium:
         api_url += "&use_selenium=1"
-    if referer:
-        api_url += "&referer={}".format(referer)
-    api_url += "&attempts={}".format(attempts)
-    api_url += "&method={}".format(method)
+    api_url += f"&attempts={attempts}&method={method}&referer={referer}"
     retries = 0
     good = False
 
     while retries < attempts and not good:
         retries += 1
         data = requests.get(
-            api_url,
-            headers={
-                "Authorization": "api-key {}".format(api_key),
-            },
+            api_url, headers={"Authorization": f"api-key {api_key}"}, timeout=90
         )
         try:
             result = json.loads(data.text)
@@ -68,30 +62,24 @@ async def get_page_async(
     base_api_url: str = "https://scrapper.scurra.space/api/get?url=",
 ) -> dict:
     """Simple async wrapper function for scrapper API"""
-    api_url = "{}{}".format(base_api_url, quote(url))
+
+    api_url = f"{base_api_url}{url}"
     if user_agent and user_agent != "":
         api_url += "&ua={}".format(quote(user_agent))
     if proxy_country > 0:
-        api_url += "&country={}".format(proxy_country)
+        api_url += f"&country={proxy_country}"
     if use_selenium:
         api_url += "&use_selenium=1"
-    if referer:
-        api_url += "&referer={}".format(referer)
-    api_url += "&attempts={}".format(attempts)
-    api_url += "&method={}".format(method)
+    api_url += f"&attempts={attempts}&method={method}&referer={referer}"
     retries = 0
     good = False
+
     result = {"html": "", "error": True}
     while retries < attempts and not good:
         retries += 1
-        headers = {
-            "Authorization": "api-key {}".format(api_key),
-        }
+        headers = {"Authorization": f"api-key {api_key}"}
         async with aiohttp.ClientSession() as session:
-            async with session.get(
-                api_url,
-                headers=headers,
-            ) as response:
+            async with session.get(api_url, headers=headers, timeout=90) as response:
                 try:
                     result = json.loads(await response.text())
                 except TypeError:
