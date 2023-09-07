@@ -88,6 +88,13 @@ async def get_page_async(
                         "error": True,
                         "error_text": "Json response from API is invalid",
                     }
+                except json.decoder.JSONDecodeError:
+                    result = {
+                        "html": "",
+                        "error": True,
+                        "error_text": "Json response from API is invalid",
+                    }
+                    
                 else:
                     good = True
     return result
