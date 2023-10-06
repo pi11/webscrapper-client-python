@@ -21,7 +21,8 @@ def get_page(
 ) -> dict:
     """Simple sync wrapper function for scrapper API"""
 
-    api_url = f"{base_api_url}{url}"
+    # api_url = f"{base_api_url}{url}"
+    api_url = "{}{}".format(base_api_url, quote(url))
     if user_agent and user_agent != "":
         api_url += "&ua={}".format(quote(user_agent))
     if proxy_country > 0:
@@ -29,6 +30,7 @@ def get_page(
     if use_selenium:
         api_url += "&use_selenium=1"
     api_url += f"&attempts={attempts}&method={method}&referer={referer}"
+    # print(api_url)
     retries = 0
     good = False
 
@@ -47,6 +49,7 @@ def get_page(
             }
         else:
             good = True
+        # print(result)
     return result
 
 
@@ -63,7 +66,8 @@ async def get_page_async(
 ) -> dict:
     """Simple async wrapper function for scrapper API"""
 
-    api_url = f"{base_api_url}{url}"
+    api_url = "{}{}".format(base_api_url, quote(url))
+
     if user_agent and user_agent != "":
         api_url += "&ua={}".format(quote(user_agent))
     if proxy_country > 0:
@@ -94,7 +98,7 @@ async def get_page_async(
                         "error": True,
                         "error_text": "Json response from API is invalid",
                     }
-                    
+
                 else:
                     good = True
     return result
